@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "armadilhas",
+  "info": {
+    "singularName": "armadilha",
+    "pluralName": "armadilhas",
+    "displayName": "Armadilhas",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "latitude": {
+      "type": "float"
+    },
+    "longitude": {
+      "type": "float"
+    },
+    "code": {
+      "type": "string"
+    },
+    "qrcode": {
+      "type": "richtext"
+    },
+    "distrito": {
+      "type": "string"
+    },
+    "concelho": {
+      "type": "string"
+    },
+    "visitas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::visita.visita",
+      "mappedBy": "armadilha"
+    },
+    "eletronica": {
+      "type": "boolean",
+      "required": false
+    },
+    "abertura": {
+      "type": "integer"
+    },
+    "anexos": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "data": {
+      "type": "date"
+    },
+    "acao": {
+      "type": "string"
+    }
+  }
+}

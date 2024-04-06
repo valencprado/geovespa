@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ninhos",
+  "info": {
+    "singularName": "ninho",
+    "pluralName": "ninhos",
+    "displayName": "Ninhos",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "latitude": {
+      "type": "float"
+    },
+    "longitude": {
+      "type": "float"
+    },
+    "distrito": {
+      "type": "string"
+    },
+    "vespa_id": {
+      "type": "string",
+      "unique": true
+    },
+    "data": {
+      "type": "string"
+    },
+    "concelho": {
+      "type": "string"
+    },
+    "anexos": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

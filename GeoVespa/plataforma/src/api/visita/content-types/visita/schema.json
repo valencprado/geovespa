@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "visitas",
+  "info": {
+    "singularName": "visita",
+    "pluralName": "visitas",
+    "displayName": "Visitas",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "data": {
+      "type": "date"
+    },
+    "numero_vespa": {
+      "type": "integer"
+    },
+    "armadilha": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::armadilha.armadilha",
+      "inversedBy": "visitas"
+    },
+    "raio2": {
+      "type": "float"
+    },
+    "raio1": {
+      "type": "decimal"
+    },
+    "distrito": {
+      "type": "string"
+    },
+    "prob": {
+      "type": "decimal"
+    },
+    "quantidade": {
+      "type": "integer"
+    },
+    "temperatura": {
+      "type": "decimal"
+    },
+    "humidade": {
+      "type": "decimal"
+    },
+    "cor": {
+      "type": "string"
+    },
+    "conselho": {
+      "type": "string"
+    },
+    "anexos": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "processado": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

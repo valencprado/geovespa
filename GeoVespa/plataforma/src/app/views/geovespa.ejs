@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sobre | GeoVespa</title>
+    <link
+      rel="shortcut icon"
+      href="/assets/images/favicon.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="/assets/css/animate.css" />
+    <link rel="stylesheet" href="/assets/css/tailwind.css" />
+
+    <!-- ==== WOW JS ==== -->
+    <script src="/assets/js/wow.min.js"></script>
+    <script>
+      new WOW().init();
+    </script>
+  </head>
+  <body>
+    <!-- ====== Navbar Section Start -->
+    <div
+    class="ud-header absolute top-0 left-0 z-40 flex w-full items-center bg-transparent ud-header_"
+  >
+    <div class="container">
+      <div class="relative -mx-4 flex items-center justify-between">
+        <div class="w-60 max-w-full px-4">
+          <a href="/" class="navbar-logo block w-full py-5">
+            <img
+              src="/assets/images/logo/logo-white.svg"
+              alt="logo"
+              class="header-logo w-full"
+            />
+          </a>
+        </div>
+        <div class="flex w-full items-center justify-between px-4">
+          <div>
+            <button
+              id="navbarToggler"
+              class="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+            >
+              <span
+                class="relative my-[6px] block h-[2px] w-[30px] bg-white"
+              ></span>
+              <span
+                class="relative my-[6px] block h-[2px] w-[30px] bg-white"
+              ></span>
+              <span
+                class="relative my-[6px] block h-[2px] w-[30px] bg-white"
+              ></span>
+            </button>
+            <nav
+              id="navbarCollapse"
+              class="absolute right-4 top-full hidden w-full max-w-[250px] rounded-lg bg-white py-5 shadow-lg lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:py-0 lg:px-4 lg:shadow-none xl:px-6"
+            >
+              <ul class="blcok lg:flex">
+                <li class="group relative">
+                  <a
+                    href="/"
+                    class="  ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70"
+                  >
+                    GeoVespa
+                  </a>
+                </li>
+                <li class="group relative  active">
+                  <a
+                    href="/geovespa"
+                    class=" active ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
+                  >
+                    Sobre
+                  </a>
+                </li>
+                <li class="group relative">
+                  <a
+                    href="/publicacoes"
+                    class=" ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
+                  >
+                    Publicações
+                  </a>
+                </li>
+                <li class="group relative">
+                  <a
+                    href="/produtos"
+                    class="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
+                  >
+                    Produtos
+                  </a>
+                </li>
+                <li class="group relative">
+                  <a
+                    href="/contact"
+                    class="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
+                  >
+                    Contacto
+                  </a>
+                </li>
+
+              </ul>
+            </nav>
+          </div>
+          <div class=" justify-end pr-16 sm:flex lg:pr-0">
+
+            <% if(page.jwt){ %>
+                <a
+                href="/dashboard"
+                class="signUpBtn rounded-lg bg-white bg-opacity-20 py-3 px-6 text-base font-medium text-white duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark"
+              >
+                Dashboard
+              </a>
+               
+                <% } else{ %>
+
+                    <a
+                    href="/auth/login"
+                    class="signUpBtn rounded-lg bg-white bg-opacity-20 py-3 px-6 text-base font-medium text-white duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark"
+                  >
+                    Login
+                  </a>
+                  
+                    <% } %>
+
+
+
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- ====== Navbar Section End -->
+
+    <!-- ====== Banner Section Start -->
+    <div
+      class="relative z-10 overflow-hidden bg-primary pt-[120px] pb-[100px] md:pt-[130px] lg:pt-[160px]"
+    >
+      <div class="container">
+        <div class="-mx-4 flex flex-wrap items-center">
+          <div class="w-full px-4">
+            <div class="text-center">
+              <h1 class="text-4xl font-semibold text-white">GeoVespa</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- ====== Banner Section End -->
+
+    <!-- ====== About Section Start -->
+    <section
+      id="about"
+      class="bg-[#f3f4fe] pt-20 pb-20 lg:pt-[120px] lg:pb-[120px]"
+    >
+      <div class="container">
+        <div class="wow fadeInUp bg-white" data-wow-delay=".2s">
+          <div class="-mx-4 flex flex-wrap">
+            <div class="w-full px-4">
+              <div
+                class="items-center justify-between overflow-hidden border lg:flex"
+              >
+                <div
+                  class="w-full py-12 px-7 sm:px-12 md:p-16 lg:max-w-[565px] lg:py-9 lg:px-16 xl:max-w-[640px] xl:p-[70px]"
+                >
+
+                  <h2
+                    class="mb-6 text-3xl font-bold text-dark sm:text-4xl sm:leading-snug 2xl:text-[40px]"
+                  >
+                    GeoVespa - CIM-TTM
+                  </h2>
+
+                  <p style="text-align: justify;font-size:13px">O Plano Estratégico de Gestão Integrada da Vespa velutina para o Território da CIM-TTM é um projeto financiado pelo POSEUR na linha de financiamento POSEUR 15-2021-2 do Programa Operacional Sustentabilidade e Eficiência no Uso do Recurso,
+                    no âmbito do Regulamento Específico de Sustentabilidade e Eficiência no Uso do Recurso (RE SEUR), do Portugal 2020.
+                </p>
+                <p style="text-align: justify;margin-top: 2px;font-size:13px">O principal objetivo é implementar uma estratégia integrada e coordenada na NUTIII da CIM-TTM e que seja comum aos 9 municípios que a constitui, reforçando a sua capacidade de intervenção na identificação, na prevenção e no controlo
+                    da espécie Vespa velutina.
+                </p>
+                <p style="text-align: justify;margin-top: 2px;font-size:13px">O âmbito geográfico da operação corresponde à área territorial dos Municípios de Alfândega da Fé, Bragança, Macedo de Cavaleiros, Miranda do Douro, Mirandela, Mogadouro, Vila Flor, Vimioso e Vinhais, os quais integram a Comunidade
+                    Intermunicipal das Terras de Trás-os-Montes que se insere na NUT III das Terras de Trás-os-Montes, correspondendo a uma área territorial de 5 543,58Km^2, administrativamente inserida na NUT II no território Norte.
+
+                </p>
+                <p style="text-align: justify;margin-top: 2px;font-size:13px">GeoVespa promove o tratamento da informação e análise de padrões de evolução no território da CIM-TTM sobre da Vespa velutina. GeoVespa recolhe toda a informação numa única base de dados e que reúne informação resultante da fase de
+                    vigilância (passiva e ativa) de todas as ações de controlo desenvolvidas.
+
+                </p>
+
+                </div>
+                <div class="text-center">
+                  <div class="relative z-10 inline-block">
+                    <img
+                      src="images/about.png"
+                      alt="image"
+                      class="mx-auto lg:ml-auto"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ====== About Section End -->
+
+    <!-- ====== Team Section Start -->
+    <section id="team" class="pt-20 pb-10 lg:pt-[120px] lg:pb-20">
+      <div class="container">
+        <div class="-mx-4 flex flex-wrap">
+          <div class="w-full px-4">
+            <div class="mx-auto mb-[60px] max-w-[620px] text-center">
+              <h2
+                class="mb-4 text-3xl font-bold text-dark sm:text-4xl md:text-[42px]"
+              >
+              Equipa de Investigação do IPB
+              </h2>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="-mx-4 flex flex-wrap ">
+
+            <% page.investigadores.forEach(function(membro) { %>
+                <div class="w-full px-4 sm:w-1/2 lg:w-1/4 duration-200 hover:scale-95">
+
+                    <div class="rounded-b-xl px-5 pb-5 pt-3 shadow-md shadow-blue-500/10">
+                        <a href="<%= membro.website %>">
+
+                            <div class="flex">
+                                <img src="<%= membro.foto?membro.foto.url:'/img/people/people_apereira.jpg' %>" alt=" <%= membro.nome %>" class="mr-3 h-10 w-10 rounded-full object-cover">
+                                <p class="text-sm font-semibold capitalize text-slate-600">
+                                    <%= membro.nome %> <span style="text-transform: lowercase !important;" class="block  text-slate-400"> <%= membro.email %></span></p>
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+                <% }); %>
+                    <% page.bolseiros.forEach(function(membro) { %>
+                        <div class="w-full px-4 sm:w-1/2 lg:w-1/4 duration-200 hover:scale-95">
+
+                            <div class="rounded-b-xl px-5 pb-5 pt-3 shadow-md shadow-blue-500/10">
+                                <a href="<%= membro.website %>">
+
+                                    <div class="flex">
+                                        <img src="<%= membro.foto?membro.foto.url:'/img/people/people_apereira.jpg' %>" alt=" <%= membro.nome %>" class="mr-3 h-10 w-10 rounded-full object-cover">
+                                        <p class="text-sm font-semibold capitalize text-slate-600">
+                                            <%= membro.nome %> <span style="text-transform: lowercase !important;" class="block  text-slate-400"> <%= membro.email %></span></p>
+                                    </div>
+
+                                </a>
+                            </div>
+                        </div>
+                        <% }); %>
+
+        </div>
+      </div>
+    </section>
+    <!-- ====== Team Section End -->
+
+    <!-- ====== Footer Section Start -->
+    <footer
+      class="wow fadeInUp relative z-10 bg-black pt-20 lg:pt-[120px]"
+      data-wow-delay=".15s"
+    >
+      <div class="container">
+        <div class="-mx-4 flex flex-wrap">
+          <div class="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-4/12 xl:w-3/12">
+            <div class="mb-10 w-full">
+              <a
+                href="javascript:void(0)"
+                class="mb-6 inline-block max-w-[160px]"
+              >
+                <img
+                  src="assets/img/logo.png"
+                  alt="logo"
+                  class="max-w-full"
+                />
+              </a>
+              <p class="mb-7 text-base text-[#f3f4fe]">
+                O Plano Estratégico de Gestão Integrada da Vespa velutina para o Território da CIM-TTM.
+              </p>
+
+            </div>
+          </div>
+          <div class="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
+
+          </div>
+          <div class="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-3/12 xl:w-2/12">
+
+          </div>
+          <div class="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-3/12 xl:w-2/12">
+            <div class="mb-10 w-full">
+              <h4 class="mb-9 text-lg font-semibold text-white">
+                Links
+              </h4>
+              <ul>
+                <li>
+                  <a
+                    href="/"
+                    class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
+                  >
+                    GeoMapa
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/geovespa"
+                    class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
+                  >
+                    Sobre
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/geovespa/publicacoes"
+                    class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
+                  >
+                    Publicações
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/contact"
+                    class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
+                  >
+                    Contacto
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-2/3 lg:w-6/12 xl:w-3/12">
+            <div class="mb-10 w-full">
+              <h4 class="mb-9 text-lg font-semibold text-white">Os Financiadores</h4>
+              <ul class="flex flex-wrap items-center">
+
+
+                <li>
+                  <a
+                  href="javascript:void(0)"
+                    class="mb-6 mr-5 block max-w-[120px] xl:max-w-[100px] 2xl:max-w-[120px]"
+                  >
+                    <img
+                      src="assets/img/logo_1.png"
+                      alt="ecommerce-html"
+                    />
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                  href="javascript:void(0)"
+                    class="mb-6 mr-5 block max-w-[120px] xl:max-w-[100px] 2xl:max-w-[120px]"
+                  >
+                    <img
+                      src="/assets/img/logo-cim-ttm.svg.jpg"
+                      alt="CIM-TTM"
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a
+                   
+                  href="javascript:void(0)"
+                    class="mb-6 mr-5 block max-w-[120px] xl:max-w-[100px] 2xl:max-w-[120px]"
+                  >
+                    <img
+                      src="assets/img/ipb.png"
+                      alt="Instituto Politécnico de Bragança"
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a
+                  href="javascript:void(0)"
+                    class="mb-6 mr-5 block max-w-[120px] xl:max-w-[100px] 2xl:max-w-[120px]"
+                  >
+                    <img
+                      src="assets/img/cedri1.png"
+                      alt="CeDRI (Centro de Digitalização e Robótica Inteligente)"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 border-t border-opacity-40 py-8 lg:mt-[60px]">
+        <div class="container">
+          <div class="-mx-4 flex flex-wrap">
+            <div class="w-full px-4 md:w-2/3 lg:w-1/2">
+              <div class="my-1">
+                <div
+                  class="-mx-3 flex items-center justify-center md:justify-start"
+                >
+                  <a
+                    href="javascript:void(0)"
+                    class="px-3 text-base text-[#f3f4fe] hover:text-primary"
+                  >
+                    IPB
+                  </a>
+                  <a
+                    href="javascript:void(0)"
+                    class="px-3 text-base text-[#f3f4fe] hover:text-primary"
+                  >
+                    CeDRI
+                  </a>
+                  <a
+                    href="javascript:void(0)"
+                    class="px-3 text-base text-[#f3f4fe] hover:text-primary"
+                  >
+                    CIM-TTM
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="w-full px-4 md:w-1/3 lg:w-1/2">
+              <div class="my-1 flex justify-center md:justify-end">
+                <p class="text-base text-[#f3f4fe]">
+                   Developed by
+                  <a
+                    href="https://microaitec.pt"
+                    rel="nofollow noopner"
+                    target="_blank"
+                    class="text-primary hover:underline"
+                  >
+                    MicroAITec
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </footer>
+    <!-- ====== Footer Section End -->
+
+    <!-- ====== Back To Top Start -->
+    <a
+      href="javascript:void(0)"
+      class="back-to-top fixed bottom-8 right-8 left-auto z-[999] hidden h-10 w-10 items-center justify-center rounded-md bg-primary text-white shadow-md transition duration-300 ease-in-out hover:bg-dark"
+    >
+      <span
+        class="mt-[6px] h-3 w-3 rotate-45 border-t border-l border-white"
+      ></span>
+    </a>
+    <!-- ====== Back To Top End -->
+
+    <!-- ====== All Scripts -->
+    <script src="/assets/js/main.js"></script>
+  </body>
+</html>

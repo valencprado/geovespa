@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+
+<!-- subscribe.html  21 Nov 2019 04:05:02 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Mapa Vespa</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="/assets/css/app.min.css">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="/assets/bundles/izitoast/css/iziToast.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/images/icon.png" />
+
+  <link rel="stylesheet" href="/assets/bundles/datatables/datatables.min.css">
+  <link rel="stylesheet" href="/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet-src.js"></script>
+<!-- 		<script type="text/javascript" src="dist/Leaflet.GoogleMutant.js"></script> -->
+<script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <nav class="navbar navbar-expand-lg main-navbar sticky navbar_vespa">
+      <div class="form-inline mr-auto">
+        <ul class="navbar-nav mr-3">
+          <li>
+            <a href="/">
+              <img style="width: 130px;" src="/images/logo.png" alt="logo" class="w-full">
+          </a>
+          </li>
+
+
+        </ul>
+      </div>
+      <ul class="navbar-nav navbar-right">
+        <li class="dropdown"><a href="#" data-toggle="dropdown"
+            class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="/assets/img/user.png"
+              class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+          <div class="dropdown-menu dropdown-menu-right pullDown">
+            <div class="dropdown-title"><%= user.username %></div>
+            <a href="/dashboard/perfil" class="dropdown-item has-icon"> <i class="far
+                  fa-user"></i> Perfil
+            </a> 
+            <a href="/dashboard" class="dropdown-item has-icon"> <i class="far
+              fa-map"></i> Mapa
+        </a> 
+
+            <a href="javascript:void(0)" data-toggle="modal" data-target=".visita" class="dropdown-item has-icon"> <i class="far
+              fa-file"></i> Registo de Monitorização
+            </a> 
+            <div class="dropdown-divider"></div>
+            <a href="/auth/logout" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+              Sair
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <section style="margin-top: 80px;">
+
+      <div class="container-fluid">
+        <div id="map"></div>
+
+
+
+    <div class="modal fade view_armadilha" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myLargeModalLabel">Dado de Armadilha</h5>
+          <div>
+           <button @click="delarmadilha" class="btn btn-danger mr-2">Remover</button>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-6">
+              <label>Distrito</label>
+              <input v-model="armadilha.distrito" type="text" class="form-control">
+            </div>
+            <div class="form-group col-6">
+              <label>Concelho</label>
+              <input v-model="armadilha.conselho" type="text" class="form-control">
+            </div>
+
+            <div class="form-group col-3">
+              <label>Nº Identificação</label>
+              <input v-model="armadilha.code" type="text" class="form-control">
+            </div>
+            <div class="form-group col-3">
+              <label>Data de Registo</label>
+              <input v-model="armadilha.data" type="text" class="form-control">
+            </div>
+            <div class="form-group col-3">
+              <label>Latitude</label>
+              <input v-model="armadilha.latitude" type="number" class="form-control">
+            </div>
+            <div class="form-group col-3">
+              <label>Longitude</label>
+              <input v-model="armadilha.longitude" type="number" class="form-control">
+            </div>
+           </div>
+
+
+           <table class="table table-striped" id="table-visita">
+            <thead>
+              <tr>
+                <th>Armadilha</th>
+                <th>Data de Visita</th>
+                <th>Quantidate de Vespa</th>
+                <th>Data</th>
+
+              </tr>
+            </thead>
+            <tbody>
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+      <div class="modal fade visita" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myLargeModalLabel">Monitorização da Armadilha</h5>
+            <div class="d-flex justify-content-between">
+              <select v-model="visita.type" class="form-control">
+                <option value="dado">Unitário</option>
+                <option value="file">Excel</option>
+              </select>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+          <div class="modal-body">
+
+            <form id="upload-visita-form" >
+              <div  class="row">
+                <div v-if="visita.type=='dado'" class=" row">
+                  <div class="form-group col-6">
+                    <label>Código da Armadilha</label>
+                    <input v-model="visita.armadilha" name="armadilha" type="text" class="form-control">
+                  </div>
+                  <div class="form-group col-6">
+                    <label>Data de Monitorização</label>
+                    <input v-model="visita.data" name="data" type="date" class="form-control">
+                  </div>
+                  <div class="form-group col-12">
+                    <label>Nº de Vespa Velutine Identificados</label>
+                    <input v-model="visita.numero_vespa" name="numero_vespa"  type="number" class="form-control">
+                  </div>
+                </div>
+
+                
+                <div v-else class="col-12 row">
+                  <div  class="form-group col-12">
+                    <a href="/visita.xlsx">Baixa o template </a>
+                  </div>
+                  <div class="form-group col-12">
+                    <label>Arquivo (excel)</label>
+                    <input  type="file" class="form-control" name="files">
+                  </div>
+                 </div>
+                </div>
+
+        
+
+               <div class="modal-footer bg-whitesmoke br">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+               
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+ 
+
+   
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+      </div>
+    </section>
+  </div>
+
+
+  <!-- General JS Scripts -->
+  <script src="/assets/js/app.min.js"></script>
+  <!-- JS Libraies -->
+  <script src="/assets/bundles/datatables/datatables.min.js"></script>
+  <script src="/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/assets/bundles/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Page Specific JS File -->
+  <!-- Template JS File -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/assets/js/scripts.js"></script>
+  <script src="/assets/bundles/sweetalert/sweetalert.min.js"></script>
+  <script src="/assets/bundles/izitoast/js/iziToast.min.js"></script>
+  <!-- Custom JS File -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js" integrity="sha512-LUKzDoJKOLqnxGWWIBM4lzRBlxcva2ZTztO8bTcWPmDSpkErWx0bSP4pdsjNH8kiHAUPaT06UXcb+vOEZH+HpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+            const jwt = '<%= jwt %>'
+        let armadilhas = '<%- JSON.stringify(armadilhas) %>'
+        ninhos = []
+        armadilhas = JSON.parse(armadilhas)
+  </script>
+  <script type="module" src="/assets/js/geovespa/monitorizacao.js"></script>
+</body>
+
+
+<!-- subscribe.html  21 Nov 2019 04:05:02 GMT -->
+</html>

@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "goe_vespas",
+  "info": {
+    "singularName": "goe-vespa",
+    "pluralName": "goe-vespas",
+    "displayName": "GoeVespa"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "tempo_de_visita": {
+      "type": "integer"
+    },
+    "hora_de_previsao": {
+      "type": "string"
+    }
+  }
+}

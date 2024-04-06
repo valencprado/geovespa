@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+     GeoVespa
+    </title>
+    <link
+      rel="shortcut icon"
+      href="/assets/images/favicon.png"
+      type="image/x-icon"
+    />
+
+    <link rel="stylesheet" href="/assets/css/leaflet.css" />
+    <link rel="stylesheet" href="/assets/css/animate.css" />
+    <link rel="stylesheet" href="/assets/css/tailwind.css" />
+
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="/assets/css/geovespa.css" />
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <!-- alpine js cdn -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+    <!-- style css -->
+    <style type="text/tailwindcss">
+        body{ font-family: 'Inter', sans-serif; } .actived{ color:#00F; }
+
+        /*----------------
+            Button design to change between Maps
+        --------------*/
+
+        #map {
+            z-index: 50;
+        }
+
+        #btnChange{
+            position: absolute;
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            width: 100%;
+            height: 40px;
+            z-index: 100;
+            left: -20px;
+            top: 35px;
+        }
+
+        #backBtnChange{
+            background-color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 3px #000a;
+        }
+
+        #btnChange input[type=checkbox] {
+            display: none;
+            z-index: 70;
+        }
+
+        .btn-alias{
+            background: linear-gradient(180deg, white, white);
+            color: black;
+            border: 2px solid #aaae;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            z-index: 1;
+            position: relative;
+            transition: all 100ms;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+        }
+    </style>
+
+
+
+
+
+    <!-- ==== WOW JS ==== -->
+    <script src="/assets/js/wow.min.js"></script>
+    <script>
+      new WOW().init();
+
+
+      // ==== for menu scroll
+      const pageLink = document.querySelectorAll(".ud-menu-scroll");
+
+      pageLink.forEach((elem) => {
+        elem.addEventListener("click", (e) => {
+          e.preventDefault();
+          document.querySelector(elem.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+            offsetTop: 1 - 60,
+          });
+        });
+      });
+
+      // section menu active
+      function onScroll(event) {
+        const sections = document.querySelectorAll(".ud-menu-scroll");
+        const scrollPos =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop;
+
+        for (let i = 0; i < sections.length; i++) {
+          const currLink = sections[i];
+          const val = currLink.getAttribute("href");
+          const refElement = document.querySelector(val);
+          const scrollTopMinus = scrollPos + 73;
+          if (
+            refElement.offsetTop <= scrollTopMinus &&
+            refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
+          ) {
+            document
+              .querySelector(".ud-menu-scroll")
+              .classList.remove("active");
+            currLink.classList.add("active");
+          } else {
+            currLink.classList.remove("active");
+          }
+        }
+      }
+
+      window.document.addEventListener("scroll", onScroll);
+  
+
+    </script>
+  </head>
+  <body>
+    <!-- ====== Navbar Section Start -->
+    <div
+      class="ud-header absolute top-0 left-0 z-40 flex w-full items-center bg-transparent ud-header_"
+    >
+      <div class="container">
+        <div class="relative -mx-4 flex items-center justify-between">
+          <div class="w-60 max-w-full px-4">
+            <a href="/" class="navbar-logo block w-full py-5">
+              <img
+                src="assets/images/logo/logo-white.svg"
+                alt="logo"
+                class="header-logo w-full"
+              />
+            </a>
+          </div>
+          <div class="flex w-full items-center justify-between px-4">
+            <div>
+              <button
+                id="navbarToggler"
+                class="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+              >
+                <span
+                  class="relative my-[6px] block h-[2px] w-[30px] bg-white"
+                ></span>
+                <span
+                  class="relative my-[6px] block h-[2px] w-[30px] bg-white"
+                ></span>
+                <span
+                  class="relative my-[6px] block h-[2px] w-[30px] bg-white"
+                ></span>
+              </button>
+              <nav
+                id="navbarCollapse"
+                class="absolute right-4 top-full hidden w-full max-w-[250px] rounded-lg bg-white py-5 shadow-lg lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:py-0 lg:px-4 lg:shadow-none xl:px-6"
+              >
+                <ul class="blcok lg:flex">
+                  <li class="group relative active">
+                    <a
+                      href="/"
+                      class=" active ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70"
+                    >
+                      GeoVespa
+                    </a>
+                  </li>
+                  <li class="group relative">
+                    <a
+                      href="/geovespa"
+                      class="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
+                    >
+                      Sobre
+                    </a>
+                  </li>
+                  <li class="group relative">
+                    <a
+                      href="/publicacoes"
+                      class="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
+                    >
+                      Publicações
+                    </a>
+                  </li>
+                  <li class="group relative">
+                    <a
+                      href="/produtos"
+                      class="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
+                    >
+                      Produtos
+                    </a>
+                  </li>
+                  <li class="group relative">
+                    <a
+                      href="/contact"
+                      class="ud-menu-scroll mx-8 flex py-2 text-base text-dark group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-white lg:group-hover:text-white lg:group-hover:opacity-70 xl:ml-12"
+                    >
+                      Contacto
+                    </a>
+                  </li>
+
+                </ul>
+              </nav>
+            </div>
+            <div class=" justify-end pr-16 sm:flex lg:pr-0">
+
+              <a
+              href="javascript:void(0)"
+              class="signUpBtn rounded-lg mr-2 bg-white bg-opacity-20 py-3 px-6 text-base font-medium text-white duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark"
+            >
+            <div id="btnChange" style="z-index: 100000000;">
+              <span id="backBtnChange">
+                <input id="ddd" onclick="change()" type="button"  >
+                <label id="btn-alias" class="btn-alias" for="ddd">
+                  <ion-icon id="iconBtnChange" name="grid">rrrrrr</ion-icon>
+                </label>
+              </span>
+            </div>
+            </a>
+
+ 
+
+            <% if (page.jwt) { %>
+              <a href="/dashboard" class="signUpBtn rounded-lg bg-white bg-opacity-20 py-3 px-6 text-base font-medium text-white duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark">
+                Dashboard
+              </a>
+            <% } else { %>
+              <a href="/auth/login" class="signUpBtn rounded-lg bg-white bg-opacity-20 py-3 px-6 text-base font-medium text-white duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark">
+                <span id="loginContent"></span>
+              </a>
+              <script>
+                let loginContent = document.getElementById('loginContent');
+                if (window.screen.width <= 343) {
+                  loginContent.innerHTML = '<ion-icon name="person-circle-outline"></ion-icon>';
+                } else {
+                  loginContent.innerHTML = '<p>Login</p>';
+                }
+              </script>
+            <% } %>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ====== Navbar Section End -->
+
+    <!-- ====== Hero Section Start -->
+    <div
+      id="home"
+      class="relative overflow-hidden bg-primary home_index"
+    >
+
+
+  
+    </div>
+
+
+
+    <div id="map" style="width: 100%; height: 600px;">
+
+    </div>
+    <!-- ====== Team Section Start -->
+    <section id="team" class="pt-20 pb-10 lg:pt-[10px] lg:pb-20">
+      <div class="container">
+        <div class="-mx-4 flex flex-wrap">
+          <div class="w-full px-4">
+            <div class="mx-auto mb-[60px] text-center">
+
+              <p
+                class="text-lg mb-4"
+              >
+              O Plano Estratégico de Gestão Integrada da <b> Vespa Velutina para o Território da CIM-TTM</b> é um projeto financiado pelo POSEUR na linha de financiamento POSEUR 15-2021-2 do Programa Operacional Sustentabilidade e Eficiência no
+              Uso do Recurso, no âmbito do Regulamento Específico de Sustentabilidade e Eficiência no Uso do Recurso (RE SEUR), do Portugal 2020.
+              </p>
+
+
+              <h2
+                class="mb-4 mt-3 text-3xl font-bold text-dark sm:text-4xl md:text-[42px]"
+              >
+              Os Financiadores
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="-mx-4 flex flex-wrap justify-center">
+          <div class="owl-carousel owl-theme" id="users-carousel">
+            <div class="business-item">
+                <img style="width: 100%;height:100px ;object-fit: cover;" src="/assets/img/logo_1.png" alt="" class="business-item-image">
+
+            </div>
+            <div class="business-item">
+                <img style="width: 100%;height:100px ;object-fit: cover;" src="/assets/img/logo-cim-ttm.svg" alt="" class="business-item-image">
+
+            </div>
+            <div class="business-item">
+                <img style="margin-left: auto;width: 100%;height:100px" src="/assets/img/ipb.png" alt="" class="business-item-image1">
+
+            </div>
+            <div class="business-item">
+                <img style="margin-left: auto; width: 80%;height: 100px !important" src="/assets/img/cedri1.png" alt="" class="business-item-image1">
+
+            </div>
+        </div>
+        </div>
+      </div>
+    </section>
+    <!-- ====== Team Section End -->
+
+    <!-- ====== Footer Section Start -->
+    <footer
+      class="wow fadeInUp relative z-10 bg-black pt-20 lg:pt-[120px]"
+      data-wow-delay=".15s"
+    >
+      <div class="container">
+        <div class="-mx-4 flex flex-wrap">
+          <div class="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-4/12 xl:w-3/12">
+            <div class="mb-10 w-full">
+              <a
+                href="javascript:void(0)"
+                class="mb-6 inline-block max-w-[160px]"
+              >
+                <img
+                  src="assets/img/logo.png"
+                  alt="logo"
+                  class="max-w-full"
+                />
+              </a>
+              <p class="mb-7 text-base text-[#f3f4fe]">
+                O Plano Estratégico de Gestão Integrada da Vespa velutina para o Território da CIM-TTM.
+              </p>
+
+            </div>
+          </div>
+          <div class="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
+
+          </div>
+          <div class="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-3/12 xl:w-2/12">
+
+          </div>
+          <div class="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-3/12 xl:w-2/12">
+            <div class="mb-10 w-full">
+              <h4 class="mb-9 text-lg font-semibold text-white">
+                Links
+              </h4>
+              <ul>
+                <li>
+                  <a
+                    href="/"
+                    class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
+                  >
+                    GeoMapa
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/geovespa"
+                    class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
+                  >
+                    Sobre
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/geovespa/publicacoes"
+                    class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
+                  >
+                    Publicações
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/contact"
+                    class="mb-2 inline-block text-base leading-loose text-[#f3f4fe] hover:text-primary"
+                  >
+                    Contacto
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-2/3 lg:w-6/12 xl:w-3/12">
+            <div class="mb-10 w-full">
+              <h4 class="mb-9 text-lg font-semibold text-white">Os Financiadores</h4>
+              <ul class="flex flex-wrap items-center">
+
+
+                <li>
+                  <a
+                  href="javascript:void(0)"
+                    class="mb-6 mr-5 block max-w-[120px] xl:max-w-[100px] 2xl:max-w-[120px]"
+                  >
+                    <img
+                      src="assets/img/logo_1.png"
+                      alt="ecommerce-html"
+                    />
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                  href="javascript:void(0)"
+                    class="mb-6 mr-5 block max-w-[120px] xl:max-w-[100px] 2xl:max-w-[120px]"
+                  >
+                    <img
+                      src="/assets/img/logo-cim-ttm.svg.jpg"
+                      alt="CIM-TTM"
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a
+                   
+                  href="javascript:void(0)"
+                    class="mb-6 mr-5 block max-w-[120px] xl:max-w-[100px] 2xl:max-w-[120px]"
+                  >
+                    <img
+                      src="assets/img/ipb.png"
+                      alt="Instituto Politécnico de Bragança"
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a
+                  href="javascript:void(0)"
+                    class="mb-6 mr-5 block max-w-[120px] xl:max-w-[100px] 2xl:max-w-[120px]"
+                  >
+                    <img
+                      src="assets/img/cedri1.png"
+                      alt="CeDRI (Centro de Digitalização e Robótica Inteligente)"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 border-t border-opacity-40 py-8 lg:mt-[60px]">
+        <div class="container">
+          <div class="-mx-4 flex flex-wrap">
+            <div class="w-full px-4 md:w-2/3 lg:w-1/2">
+              <div class="my-1">
+                <div
+                  class="-mx-3 flex items-center justify-center md:justify-start"
+                >
+                  <a
+                    href="javascript:void(0)"
+                    class="px-3 text-base text-[#f3f4fe] hover:text-primary"
+                  >
+                    IPB
+                  </a>
+                  <a
+                    href="javascript:void(0)"
+                    class="px-3 text-base text-[#f3f4fe] hover:text-primary"
+                  >
+                    CeDRI
+                  </a>
+                  <a
+                    href="javascript:void(0)"
+                    class="px-3 text-base text-[#f3f4fe] hover:text-primary"
+                  >
+                    CIM-TTM
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="w-full px-4 md:w-1/3 lg:w-1/2">
+              <div class="my-1 flex justify-center md:justify-end">
+                <p class="text-base text-[#f3f4fe]">
+                   Developed by
+                  <a
+                    href="https://microaitec.pt"
+                    rel="nofollow noopner"
+                    target="_blank"
+                    class="text-primary hover:underline"
+                  >
+                    MicroAITec
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </footer>
+    <!-- ====== Footer Section End -->
+
+    <!-- ====== Back To Top Start -->
+    <a
+      href="javascript:void(0)"
+      class="back-to-top fixed bottom-8 right-8 left-auto z-[999] hidden h-10 w-10 items-center justify-center rounded-md bg-primary text-white shadow-md transition duration-300 ease-in-out hover:bg-dark"
+    >
+      <span
+        class="mt-[6px] h-3 w-3 rotate-45 border-t border-l border-white"
+      ></span>
+    </a>
+    <!-- ====== Back To Top End -->
+
+    <!-- ====== All Scripts -->
+
+    <script src="/assets/js/leaflet.js"></script>
+
+    <script src="/assets/js/main.js"></script>
+
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/owl.carousel.min.js"></script>
+
+
+    <script>
+      window.map = L.map('map').setView([41.5407012, -6.7201998], 9.4);
+
+      const btnMap = document.getElementById("btn-alias")
+      let btnColorIndex = 0
+
+      let hybrid = null
+      let openStreet = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  maxZoom: 20,
+                  attribution: '&copy;'
+              }).addTo(window.map);
+      let imagery = null
+      let imageryInfo = null
+
+      function change() {
+          if(btnColorIndex < 2) btnColorIndex++
+          else btnColorIndex = 0
+
+          if(btnColorIndex == 0){
+              btnMap.style.background= "linear-gradient(180deg, white, white)"
+              btnMap.style.color = "black"
+              btnMap.style.border = "2px solid #aaae"
+
+              openStreet= L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  maxZoom: 20,
+                  attribution: '&copy;'
+              })
+              .addTo(window.map);
+
+              window.changeColor("black")
+
+              setTimeout(() =>{
+                  window.map.removeLayer(imagery)
+                  window.map.removeLayer(imageryInfo)
+              }, 100)
+          }else if(btnColorIndex == 1){
+              btnMap.style.background= "linear-gradient(180deg, #3b82f6, #6147F5)"
+              btnMap.style.color = "white"
+              btnMap.style.border = "2px solid #fff"
+
+              hybrid= L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+                  maxZoom: 20,
+                  subdomains:['mt0','mt1','mt2','mt3']
+              })
+              .addTo(window.map);
+
+              window.changeColor("blue")
+
+              setTimeout(() => window.map.removeLayer(openStreet),100)
+          }else if(btnColorIndex == 2){
+              btnMap.style.background= "linear-gradient(180deg, #DE770B, #FA1E0D)"
+              btnMap.style.color = "white"
+              btnMap.style.border = "2px solid #fff"
+
+              imagery= L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                  maxZoom: 18,
+                  attribution: '&copy;'
+              })
+              .addTo(window.map);
+
+              imageryInfo= L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places_Alternate/MapServer/tile/{z}/{y}/{x}', {
+                  maxZoom: 18,
+                  attribution: '&copy;'
+              }).addTo(window.map);
+
+              window.changeColor("red")
+
+              setTimeout(() => window.map.removeLayer(hybrid),100)
+          }
+      }
+
+
+
+      $(function() {
+       // Owl Carousel
+       var owl = $(".owl-carousel");
+       owl.owlCarousel({
+           responsiveClass: true,
+           responsive: {
+               0: {
+                   items: 1,
+                   nav: true
+               },
+               600: {
+                   items: 2,
+                   nav: false
+               },
+               1000: {
+                   items: 4,
+                   nav: true,
+               }
+           },
+           loop: true,
+           margin: 10,
+           autoplay: true,
+           autoplayTimeout: 5000,
+           autoplayHoverPause: true
+       });
+   });
+  </script>
+
+<script type="module" src="/js/page/mapvespa/index.js"></script>
+
+  </body>
+</html>

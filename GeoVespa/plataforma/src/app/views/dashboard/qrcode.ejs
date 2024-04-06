@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+
+<!-- subscribe.html  21 Nov 2019 04:05:02 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Mapa Vespa</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="/assets/css/app.min.css">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="/assets/bundles/izitoast/css/iziToast.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/images/icon.png" />
+
+  <link rel="stylesheet" href="/assets/bundles/datatables/datatables.min.css">
+  <link rel="stylesheet" href="/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet-src.js"></script>
+<!-- 		<script type="text/javascript" src="dist/Leaflet.GoogleMutant.js"></script> -->
+<script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <nav class="navbar navbar-expand-lg main-navbar sticky navbar_vespa">
+      <div class="form-inline mr-auto">
+        <ul class="navbar-nav mr-3">
+          <li>
+            <a href="/">
+              <img style="width: 130px;" src="/images/logo.png" alt="logo" class="w-full">
+          </a>
+          </li>
+
+
+        </ul>
+      </div>
+      <ul class="navbar-nav navbar-right">
+        <li class="dropdown"><a href="#" data-toggle="dropdown"
+            class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="/assets/img/user.png"
+              class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
+          <div class="dropdown-menu dropdown-menu-right pullDown">
+            <div class="dropdown-title"><%= user.username %></div>
+            <a href="/dashboard/perfil" class="dropdown-item has-icon"> <i class="far
+                  fa-user"></i> Perfil
+            </a> 
+            <a href="/dashboard" class="dropdown-item has-icon"> <i class="far
+              fa-map"></i> Mapa
+        </a> 
+
+            <a href="javascript:void(0)" data-toggle="modal" data-target=".visita" class="dropdown-item has-icon"> <i class="far
+              fa-file"></i> Registo de Monitorização
+            </a> 
+            <div class="dropdown-divider"></div>
+            <a href="/auth/logout" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+              Sair
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <section style="margin-top: 80px;">
+
+      <div class="container-fluid d-flex justify-content-center">
+    
+        <div v-if="!armadilha.id" style="width: 500px" id="reader"></div>
+
+        <div v-else >
+          <div class="row">
+            <div class="form-group col-6">
+              <label>Distrito</label>
+              <input v-model="armadilha.distrito" type="text" class="form-control">
+            </div>
+            <div class="form-group col-6">
+              <label>Concelho</label>
+              <input v-model="armadilha.concelho" type="text" class="form-control">
+            </div>
+
+            <div class="form-group col-lg-3 col-sm-12">
+              <label>Nº Identificação</label>
+              <input v-model="armadilha.id" type="text" class="form-control">
+            </div>
+            <div class="form-group col-lg-3 col-sm-12">
+              <label>Data de Registo</label>
+              <input v-model="armadilha.data" type="text" class="form-control">
+            </div>
+            <div class="form-group col-lg-3 col-sm-12">
+              <label>Latitude</label>
+              <input v-model="armadilha.latitude" type="number" class="form-control">
+            </div>
+            <div class="form-group col-lg-3 col-sm-12">
+              <label>Longitude</label>
+              <input v-model="armadilha.longitude" type="number" class="form-control">
+            </div>
+           </div>
+
+           <div class="row w-100">
+            <div class="d-flex justify-content-between col-12">
+              <button data-toggle="modal" data-target=".visita" style="margin-top: 27px;height: 40px;"  class="btn btn-primary ml-2">Adicionar os dados da monitorização</button>
+            </div>
+           
+           </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <div class="modal fade visita" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myLargeModalLabel">Monitorização da Armadilha</h5>
+          <div class="d-flex justify-content-between">
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+
+          <form id="upload-visita-form" >
+            <div  class="row">
+              <div class=" row">
+                <div class="form-group col-12">
+                  <label>Data de Monitorização</label>
+                  <input v-model="visita.data" name="data" type="date" class="form-control">
+                </div>
+                <div class="form-group col-12">
+                  <label>Nº de Vespa Velutine Identificados</label>
+                  <input v-model="visita.numero_vespa" name="numero_vespa"  type="number" class="form-control">
+                </div>
+
+     
+
+                    <div class="form-group col-12">
+                      <label>As fotos da armadilha (Em desenvolvimento)</label>
+                      <input type="file" name="files" multiple class="form-control">
+                    </div>
+                
+             
+        
+              </div>
+
+              </div>
+
+      
+
+             <div class="modal-footer bg-whitesmoke br">
+              <button type="submit" class="btn btn-primary">Guardar</button>
+             
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+
+
+ 
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <!-- General JS Scripts -->
+  <script src="/assets/js/app.min.js"></script>
+  <!-- JS Libraies -->
+  <script src="/assets/bundles/datatables/datatables.min.js"></script>
+  <script src="/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/assets/bundles/jquery-ui/jquery-ui.min.js"></script>
+  <!-- Page Specific JS File -->
+  <!-- Template JS File -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/assets/js/scripts.js"></script>
+  <script src="/assets/bundles/sweetalert/sweetalert.min.js"></script>
+  <script src="/assets/bundles/izitoast/js/iziToast.min.js"></script>
+  <!-- Custom JS File -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js" ></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+      const { createApp, ref } = Vue
+      const jwt = '<%= jwt %>'
+
+      const app=createApp({
+        data() {
+          return {
+            armadilha:{},
+            visita:{
+                type:'dado'
+            }
+          }
+        }
+      }).mount('#app')
+
+
+var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+
+
+
+async function onScanSuccess(decodedText, decodedResult) {
+
+  const input=JSON.parse(atob(decodedText))
+      // Handle on success condition with the decoded text or result.
+      console.log(`Scan result: ${decodedText}`, decodedResult);
+    //  html5QrcodeScanner.clear();
+
+    const {data}= await axios.get('/api/armadilhas/qrcode/'+input.id, {
+                        headers: {
+                            Authorization: jwt
+                        }
+
+          })
+   console.log(data)
+
+   app.armadilha=data
+
+  }
+
+
+  html5QrcodeScanner.render(onScanSuccess);
+
+
+
+  const form_visita = document.querySelector('#upload-visita-form');
+  form_visita.addEventListener('submit', async(e) => {
+    e.preventDefault();
+
+     app.visita.armadilha=app.armadilha.id
+     try {
+
+        const body= new FormData(e.target)
+        body.append('data',JSON.stringify(app.visita));
+
+        const res = await fetch('/api/armadilha/visita', {
+            method: 'post',
+            body,
+            headers: {
+                Authorization: jwt
+            }
+        });
+
+        const data = await res.json()
+
+      
+         swal('Registo Visita de Armadilha', 'Operação feita com sucesso!', 'success').then(()=>{
+          app.visita={
+            type:'dado'
+          }
+
+
+          app.armadilha={}
+
+      
+          $('.visita').modal('hide')
+         })
+         
+     } catch (error) {
+ 
+         console.log(error)
+         iziToast.error({
+             title: "GeoVespa",
+             message: 'Ocorreu erro',
+             position: 'topRight'
+           });
+     }
+ 
+
+
+
+
+
+
+});
+
+
+
+
+
+
+  
+  </script>
+  <script type="module" src="/assets/js/geovespa/qrcode.js"></script>
+</body>
+
+
+<!-- subscribe.html  21 Nov 2019 04:05:02 GMT -->
+</html>
